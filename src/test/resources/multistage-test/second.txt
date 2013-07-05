@@ -1,0 +1,4 @@
+"BBB" => "CC"
+"DD" => "EEEE"
+"GG" => "HHHH"
+"JJJ" => "K" 

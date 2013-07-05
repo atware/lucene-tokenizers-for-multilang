@@ -1,0 +1,4 @@
+"AAAAAA" => "BBBB"
+"CC" => "DDD"
+"FFFF" => "GGG"
+"II" => "JJJJJ"
