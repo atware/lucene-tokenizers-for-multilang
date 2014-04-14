@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -36,14 +35,8 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class CranioCaudalFilterTest {
 
-    private final CJKTokenizerFactory tokenizerFactory = new CJKTokenizerFactory();
-    private final CranioCaudalFilterFactory filterFactory = new CranioCaudalFilterFactory();
-
-    @Before
-    public void setUp() {
-        tokenizerFactory.init(new HashMap<String, String>());
-        filterFactory.init(new HashMap<String, String>());
-    }
+    private final CJKTokenizerFactory tokenizerFactory = new CJKTokenizerFactory(new HashMap<String, String>());
+    private final CranioCaudalFilterFactory filterFactory = new CranioCaudalFilterFactory(new HashMap<String, String>());
 
     @DataPoints
     public static final TestData[] testDataSet = new TestData[] {

@@ -70,19 +70,19 @@ public class ExampleCJKTokenizerImplTest extends AbstractCJKTokenizerImplTest {
     @Override
     @Before
     public void setup() {
-        factory = new CJKTokenizerFactory();
         Map<String, String> args = new HashMap<String, String>();
         args.put("custom", "true");
         args.put("action", getPath("example-settings/zz_action"));
         args.put("cmap", getPath("example-settings/zz_cmap"));
         args.put("trans", getPath("example-settings/zz_trans"));
-        factory.init(args);
+
+        factory = new CJKTokenizerFactory(args);
 
     }
 
     protected CJKTokenizer createTestTarget(String string) {
         StringReader reader = new StringReader(string);
-        CJKTokenizer tokenizer = factory.create(reader);
+        CJKTokenizer tokenizer = (CJKTokenizer) factory.create(reader);
         return tokenizer;
     }
 

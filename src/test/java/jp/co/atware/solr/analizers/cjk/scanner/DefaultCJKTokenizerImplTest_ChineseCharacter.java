@@ -34,8 +34,7 @@ public class DefaultCJKTokenizerImplTest_ChineseCharacter extends
 
     @Override
     public void setup() {
-        factory = new CJKTokenizerFactory();
-        factory.init(new HashMap<String, String>());
+        factory = new CJKTokenizerFactory(new HashMap<String, String>());
 
     }
 
@@ -153,7 +152,7 @@ public class DefaultCJKTokenizerImplTest_ChineseCharacter extends
 
     protected CJKTokenizer createTestTarget(String string) {
         StringReader reader = new StringReader(string);
-        CJKTokenizer tokenizer = factory.create(reader);
+        CJKTokenizer tokenizer = (CJKTokenizer) factory.create(reader);
         return tokenizer;
     }
 }

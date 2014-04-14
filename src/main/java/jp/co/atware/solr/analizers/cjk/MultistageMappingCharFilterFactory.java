@@ -16,10 +16,12 @@
 
 package jp.co.atware.solr.analizers.cjk;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.charfilter.MappingCharFilter;
 import org.apache.lucene.analysis.charfilter.MappingCharFilterFactory;
@@ -29,6 +31,14 @@ import org.apache.lucene.analysis.util.ResourceLoader;
 
 public class MultistageMappingCharFilterFactory extends
         MappingCharFilterFactory {
+
+    /**
+     * インスタンスを生成します。
+     * @param args
+     */
+    public MultistageMappingCharFilterFactory(Map<String, String> args) {
+        super(args);
+    }
 
     private static final String PTN_STAGE_DELIMITER = "(?<!\\\\);";
     private static final String PTN_REMOVE_ESCAPE_CHAR = "\\\\(?=;)";
@@ -42,20 +52,43 @@ public class MultistageMappingCharFilterFactory extends
 
     @Override
     public void inform(ResourceLoader loader) throws IOException {
-        String mapping = args.get("mapping");
+        String mapping = getOriginalArgs().get("mapping");
         if (mapping == null) {
             return;
         }
         for (String fileNames : mapping.split(PTN_STAGE_DELIMITER)) {
             fileNames = fileNames.replaceAll(PTN_REMOVE_ESCAPE_CHAR, "");
-            args.put("mapping", fileNames);
-            super.inform(loader);
-            if (normMap != null) {
-                normMapList.add(normMap);
+            NormalizeCharMap map = inform(loader, fileNames);
+            if (map != null) {
+                normMapList.add(map);
             }
         }
     }
 
+    public NormalizeCharMap inform(ResourceLoader loader, String mapping) throws IOException {
+      if (mapping != null) {
+        List<String> wlist = null;
+        File mappingFile = new File(mapping);
+        if (mappingFile.exists()) {
+          wlist = getLines(loader, mapping);
+        } else {
+          List<String> files = splitFileNames(mapping);
+          wlist = new ArrayList<String>();
+          for (String file : files) {
+            List<String> lines = getLines(loader, file.trim());
+            wlist.addAll(lines);
+          }
+        }
+        if (wlist.isEmpty()) {
+            return null;
+        }
+        final NormalizeCharMap.Builder builder = new NormalizeCharMap.Builder();
+        parseRules(wlist, builder);
+        return builder.build();
+      }
+      return null;
+    }
+    
     @Override
     public Reader create(Reader input) {
         for (NormalizeCharMap charMap : normMapList) {

@@ -42,15 +42,13 @@ public class MultistageMappingCharFilterTest {
 
     @Before
     public void setup() throws Exception {
-        charFilterFactory = new MultistageMappingCharFilterFactory();
         Map<String, String> args = new HashMap<String, String>();
         args.put(
                 "mapping",
                 "src/test/resources/multistage-test/first.txt;src/test/resources/multistage-test/second.txt");
-        charFilterFactory.init(args);
+        charFilterFactory = new MultistageMappingCharFilterFactory(args);
         charFilterFactory.inform(new FilesystemResourceLoader());
-        tokenizerFactory = new CJKTokenizerFactory();
-        tokenizerFactory.init(new HashMap<String, String>());
+        tokenizerFactory = new CJKTokenizerFactory(new HashMap<String, String>());
     }
 
     @DataPoints
@@ -73,6 +71,8 @@ public class MultistageMappingCharFilterTest {
                 .getAttribute(OffsetAttribute.class);
         CharTermAttribute termAtt = tokenStream
                 .getAttribute(CharTermAttribute.class);
+
+        tokenStream.reset();
 
         assertThat(tokenStream.incrementToken(), is(true));
         assertThat(termAtt.toString(), is(testData.expected));

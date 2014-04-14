@@ -26,6 +26,7 @@ import jp.co.atware.solr.analizers.cjk.dfa.DFASettingManager;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
+import org.apache.lucene.util.AttributeSource.AttributeFactory;
 
 public class CJKTokenizerFactory extends TokenizerFactory {
 
@@ -57,10 +58,9 @@ public class CJKTokenizerFactory extends TokenizerFactory {
     private final DFASettingManager dfaManager = DFASettingManager
             .getInstance();
 
-    @Override
-    public void init(Map<String, String> args) {
-        super.init(args);
-        maxTokenLength = getInt("maxTokenLength",
+    public CJKTokenizerFactory(Map<String, String> args) {
+        super(args);
+        maxTokenLength = getInt(args, "maxTokenLength",
                 StandardAnalyzer.DEFAULT_MAX_TOKEN_LENGTH);
         if (args.containsKey(CUSTOMIZE_DFA_KEY)) {
             if (!args.containsKey(CMAP_FILE_PATH_KEY)
@@ -75,7 +75,7 @@ public class CJKTokenizerFactory extends TokenizerFactory {
         }
     }
 
-    public CJKTokenizer create(Reader input) {
+    public CJKTokenizer create(AttributeFactory factory, Reader input) {
         CJKTokenizer tokenizer = null;
         tokenizer = new CJKTokenizer(input, cmap, action, trans);
         tokenizer.setMaxTokenLength(maxTokenLength);

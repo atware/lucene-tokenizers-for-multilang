@@ -24,10 +24,14 @@ import org.apache.lucene.analysis.util.TokenFilterFactory;
 public class CJKBigramFilterFactory extends TokenFilterFactory {
     boolean outputUnigrams;
 
-    @Override
-    public void init(Map<String, String> args) {
-        super.init(args);
-        outputUnigrams = getBoolean("outputUnigrams", false);
+    /**
+     * インスタンスを生成します。
+     * 
+     * @param args
+     */
+    protected CJKBigramFilterFactory(Map<String, String> args) {
+        super(args);
+        outputUnigrams = getBoolean(args, "outputUnigrams", false);
     }
 
     @Override

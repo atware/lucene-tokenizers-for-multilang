@@ -16,10 +16,20 @@
 
 package jp.co.atware.solr.analizers.cjk;
 
+import java.util.Map;
+
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
 
 public class CranioCaudalFilterFactory extends TokenFilterFactory {
+
+    /**
+     * インスタンスを生成します。
+     * @param args
+     */
+    protected CranioCaudalFilterFactory(Map<String, String> args) {
+        super(args);
+    }
 
     private final String[] prefixOfWords = new String[] {
             //

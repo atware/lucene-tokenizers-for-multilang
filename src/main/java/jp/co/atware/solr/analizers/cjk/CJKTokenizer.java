@@ -106,7 +106,8 @@ public final class CJKTokenizer extends Tokenizer {
     }
 
     @Override
-    public final void end() {
+    public final void end() throws IOException {
+        super.end();
         // set final offset
         int finalOffset = correctOffset(scanner.yychar() + scanner.yylength());
         offsetAtt.setOffset(finalOffset, finalOffset);
@@ -114,6 +115,7 @@ public final class CJKTokenizer extends Tokenizer {
 
     @Override
     public void reset() throws IOException {
+        super.reset();
         scanner.yyreset(input);
     }
 }

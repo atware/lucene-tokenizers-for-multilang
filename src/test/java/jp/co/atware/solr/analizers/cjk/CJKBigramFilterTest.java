@@ -47,18 +47,15 @@ public class CJKBigramFilterTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        charFilterFactory = new MappingCharFilterFactory();
         Map<String, String> map = new HashMap<String, String>();
         map.put("mapping", "mapping.txt");
-        charFilterFactory.init(map);
+        charFilterFactory = new MappingCharFilterFactory(map);
         charFilterFactory.inform(new FilesystemResourceLoader(new File(
                 "src/test/resources/cjkbigramfilter")));
-        tokenizerFactory = new CJKTokenizerFactory();
-        tokenizerFactory.init(new HashMap<String, String>());
-        tokenFilterFactory = new CJKBigramFilterFactory();
+        tokenizerFactory = new CJKTokenizerFactory(new HashMap<String, String>());
         map = new HashMap<String, String>();
         map.put("outputUnigrams", "true");
-        tokenFilterFactory.init(map);
+        tokenFilterFactory = new CJKBigramFilterFactory(map);
     }
 
     @DataPoints
