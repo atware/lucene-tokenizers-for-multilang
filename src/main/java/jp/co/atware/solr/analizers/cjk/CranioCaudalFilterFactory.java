@@ -27,7 +27,7 @@ public class CranioCaudalFilterFactory extends TokenFilterFactory {
      * インスタンスを生成します。
      * @param args
      */
-    protected CranioCaudalFilterFactory(Map<String, String> args) {
+    public CranioCaudalFilterFactory(Map<String, String> args) {
         super(args);
     }
 
