@@ -26,10 +26,10 @@ public class CJKBigramFilterFactory extends TokenFilterFactory {
 
     /**
      * インスタンスを生成します。
-     * 
+     *
      * @param args
      */
-    protected CJKBigramFilterFactory(Map<String, String> args) {
+    public CJKBigramFilterFactory(Map<String, String> args) {
         super(args);
         outputUnigrams = getBoolean(args, "outputUnigrams", false);
     }
